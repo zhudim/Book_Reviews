@@ -17,6 +17,26 @@
           <p class="mb-1"><strong>Електронна пошта:</strong> {{ profile.user.email }}</p>
           <p class="mb-1"><strong>Локація:</strong> {{ profile.location|default:'Не вказано' }}</p>
           <p>{{ profile.bio|linebreaks|default:'Про користувача нічого не написано.' }}</p>
+          <div class="row row-cols-1 row-cols-md-3 g-2 mb-3">
+            <div class="col">
+              <div class="border rounded p-3 bg-light text-center">
+                <div class="h5 mb-1">{{ review_count }}</div>
+                <div class="text-muted">Рецензій</div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="border rounded p-3 bg-light text-center">
+                <div class="h5 mb-1">{{ reading_count }}</div>
+                <div class="text-muted">Книг у бібліотеці</div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="border rounded p-3 bg-light text-center">
+                <div class="h5 mb-1">{{ read_count }}</div>
+                <div class="text-muted">Прочитано</div>
+              </div>
+            </div>
+          </div>
           <a class="btn btn-primary" href="{% url 'users:edit_profile' %}">Редагувати профіль</a>
         </div>
       </div>

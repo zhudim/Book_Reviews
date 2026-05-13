@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from books.models import Book
@@ -66,9 +67,10 @@ class ReadingListView(LoginRequiredMixin, ListView):
 
 
 @login_required
+@require_POST
 def toggle_reading_status(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    status = request.GET.get('status', ReadingList.STATUS_WANT)
+    status = request.POST.get('status', ReadingList.STATUS_WANT)
     if status not in dict(ReadingList.STATUS_CHOICES):
         status = ReadingList.STATUS_WANT
 

@@ -52,8 +52,8 @@ if __name__ == '__main__':
     user1 = User.objects.create_user(username='reader1', email='reader1@example.com', password='password123')
     user2 = User.objects.create_user(username='critic', email='critic@example.com', password='password123')
 
-    Review.objects.create(user=user1, book=book_objs[0], title='Чарівна історія', body='Ця книга змушує мріяти й вірити в магію.', rating=5)
-    Review.objects.create(user=user2, book=book_objs[2], title='Неймовірний трилер', body='Швидко, цікаво і дуже напружено.', rating=4)
+    Review.objects.create(user=user1, book=book_objs[0], title='Чарівна історія', body='Ця книга змушує мріяти й вірити в магію.', rating=9)
+    Review.objects.create(user=user2, book=book_objs[2], title='Неймовірний трилер', body='Швидко, цікаво і дуже напружено.', rating=7)
 
     ReadingList.objects.create(user=user1, book=book_objs[1], status=ReadingList.STATUS_WANT)
     ReadingList.objects.create(user=user1, book=book_objs[0], status=ReadingList.STATUS_READ)

@@ -15,6 +15,7 @@ class BookListView(ListView):
         queryset = Book.objects.prefetch_related('genres').all()
         query = self.request.GET.get('q', '').strip()
         genre = self.request.GET.get('genre', '').strip()
+        sort = self.request.GET.get('sort', '').strip()
 
         if query:
             queryset = queryset.filter(
@@ -23,6 +24,11 @@ class BookListView(ListView):
         if genre:
             queryset = queryset.filter(genres__slug=genre)
 
+        if sort == 'rating':
+            queryset = queryset.annotate(avg_rating=Avg('reviews__rating')).order_by('-avg_rating', 'title')
+        else:
+            queryset = queryset.order_by('title')
+
         return queryset.distinct()
 
     def get_context_data(self, **kwargs):
@@ -30,6 +36,7 @@ class BookListView(ListView):
         context['genres'] = Genre.objects.all()
         context['search_term'] = self.request.GET.get('q', '')
         context['selected_genre'] = self.request.GET.get('genre', '')
+        context['sort'] = self.request.GET.get('sort', '')
         return context
 
 
