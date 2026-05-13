@@ -87,6 +87,8 @@ DATABASES = {
     }
 }
 
+# Local development uses SQLite by default.
+# To use PostgreSQL, set USE_SQLITE=false and configure POSTGRES_* env vars.
 if os.getenv('USE_SQLITE', 'True').lower() in ('true', '1', 'yes'):
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',

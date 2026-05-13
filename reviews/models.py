@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Review(models.Model):
-    RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
+    RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
     book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='reviews')
@@ -19,7 +19,7 @@ class Review(models.Model):
         unique_together = [['user', 'book']]
 
     def __str__(self):
-        return f"{self.title} ({self.rating}/5)"
+        return f"{self.title} ({self.rating}/10)"
 
 
 class ReadingList(models.Model):
