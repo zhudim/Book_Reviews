@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Профіль{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body d-flex gap-4 align-items-center">
+        {% if profile.avatar %}
+          <img src="{{ profile.avatar.url }}" class="rounded-circle" width="120" height="120" alt="Аватар">
+        {% else %}
+          <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="width:120px; height:120px;">
+            <span class="text-white fs-4">{{ profile.user.username|first|upper }}</span>
+          </div>
+        {% endif %}
+        <div>
+          <h2>{{ profile.user.username }}</h2>
+          <p class="mb-1"><strong>Електронна пошта:</strong> {{ profile.user.email }}</p>
+          <p class="mb-1"><strong>Локація:</strong> {{ profile.location|default:'Не вказано' }}</p>
+          <p>{{ profile.bio|linebreaks|default:'Про користувача нічого не написано.' }}</p>
+          <a class="btn btn-primary" href="{% url 'users:edit_profile' %}">Редагувати профіль</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

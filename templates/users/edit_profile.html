@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Редагувати профіль{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2>Редагувати профіль</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            {{ form.avatar.label_tag }}
+            {{ form.avatar }}
+            {{ form.avatar.errors }}
+          </div>
+          <div class="mb-3">
+            {{ form.location.label_tag }}
+            {{ form.location }}
+            {{ form.location.errors }}
+          </div>
+          <div class="mb-3">
+            {{ form.bio.label_tag }}
+            {{ form.bio }}
+            {{ form.bio.errors }}
+          </div>
+          <button class="btn btn-primary" type="submit">Зберегти</button>
+          <a class="btn btn-secondary" href="{% url 'users:profile' %}">Скасувати</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
