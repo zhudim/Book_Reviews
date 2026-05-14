@@ -13,7 +13,7 @@
       <input type="hidden" name="sort" value="{{ sort }}">
       <button class="btn btn-outline-primary" type="submit">Шукати</button>
     </form>
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
       <a href="{% url 'books:create' %}" class="btn btn-success">+ Додати книгу</a>
     {% endif %}
   </div>
