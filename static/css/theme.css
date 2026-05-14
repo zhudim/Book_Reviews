@@ -70,3 +70,41 @@ body.theme-dark .form-select:focus {
   border-color: #666;
   box-shadow: none;
 }
+
+/* Form field styling for authentication pages */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #80bdff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Sticky footer layout */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}

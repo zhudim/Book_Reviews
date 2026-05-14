@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Видалити книгу{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm border-danger">
+      <div class="card-body">
+        <h2 class="text-danger">Видалити книгу?</h2>
+        
+        <div class="alert alert-warning" role="alert">
+          <strong>Увага!</strong> Ця дія не можна скасувати.
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text text-muted">{{ book.author }}</p>
+            {% if book.cover %}
+              <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="img-fluid" style="max-height: 200px; object-fit: cover;">
+            {% endif %}
+          </div>
+        </div>
+
+        <p class="text-muted mb-4">
+          Ви впевнені, що хочете видалити "<strong>{{ book.title }}</strong>"?
+        </p>
+
+        <div class="d-flex gap-2">
+          <form method="post" class="flex-grow-1">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">Видалити</button>
+          </form>
+          <a href="{{ book.get_absolute_url }}" class="btn btn-secondary">Скасувати</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

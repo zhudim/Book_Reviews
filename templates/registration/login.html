@@ -10,16 +10,24 @@
           {% csrf_token %}
           {{ form.non_field_errors }}
           <div class="mb-3">
-            {{ form.username.label_tag }}
-            {{ form.username.as_widget(attrs={"class": "form-control", "placeholder": "Ім’я користувача"}) }}
+            {{ form.username }}
+            {% if form.username.errors %}
+              <div class="invalid-feedback d-block">
+                {{ form.username.errors }}
+              </div>
+            {% endif %}
           </div>
           <div class="mb-3">
-            {{ form.password.label_tag }}
-            {{ form.password.as_widget(attrs={"class": "form-control", "placeholder": "Пароль"}) }}
+            {{ form.password }}
+            {% if form.password.errors %}
+              <div class="invalid-feedback d-block">
+                {{ form.password.errors }}
+              </div>
+            {% endif %}
           </div>
-          <button class="btn btn-primary" type="submit">Увійти</button>
+          <button class="btn btn-primary w-100" type="submit">Увійти</button>
         </form>
-        <p class="mt-3">Не маєте акаунта? <a href="{% url 'users:register' %}">Зареєструватися</a></p>
+        <p class="mt-3 text-center">Не маєте акаунта? <a href="{% url 'users:register' %}">Зареєструватися</a></p>
       </div>
     </div>
   </div>

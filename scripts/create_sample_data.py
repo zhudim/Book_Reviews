@@ -35,6 +35,12 @@ if __name__ == '__main__':
         {'title': 'The Light Between Worlds', 'author': 'Kayla Ancrum', 'description': 'A magical modern fantasy about belonging, stories and family.', 'published_date': '2022-05-03', 'genres': ['fantasy']},
         {'title': 'Deep Learning with Python', 'author': 'Francois Chollet', 'description': 'A practical guide to deep learning using the Keras library.', 'published_date': '2017-10-28', 'genres': ['non-fiction']},
         {'title': 'The Martian', 'author': 'Andy Weir', 'description': 'A gripping survival story of an astronaut stranded on Mars.', 'published_date': '2014-02-11', 'genres': ['sci-fi']},
+        {'title': 'The Midnight Library', 'author': 'Matt Haig', 'description': 'A magical journey through infinite possibilities and choices that shape our lives.', 'published_date': '2020-08-13', 'genres': ['fantasy']},
+        {'title': 'Dune', 'author': 'Frank Herbert', 'description': 'An epic science fiction masterpiece about politics, religion, and ecology on a desert planet.', 'published_date': '1965-06-01', 'genres': ['sci-fi']},
+        {'title': 'Thinking, Fast and Slow', 'author': 'Daniel Kahneman', 'description': 'Explore the two systems of thought that drive the way we think and make decisions.', 'published_date': '2011-10-25', 'genres': ['non-fiction']},
+        {'title': 'Piranesi', 'author': 'Susanna Clarke', 'description': 'A mysterious and enchanting fantasy about memory, identity, and hidden worlds.', 'published_date': '2020-09-15', 'genres': ['fantasy']},
+        {'title': 'Foundation', 'author': 'Isaac Asimov', 'description': 'A classic science fiction tale of galactic empire and the prediction of the future through psychohistory.', 'published_date': '1951-06-01', 'genres': ['sci-fi']},
+        {'title': 'Sapiens', 'author': 'Yuval Noah Harari', 'description': 'A sweeping history of humankind from the Stone Age to the modern era.', 'published_date': '2014-09-04', 'genres': ['non-fiction']},
     ]
 
     book_objs = []

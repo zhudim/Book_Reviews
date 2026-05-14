@@ -18,6 +18,7 @@ class Book(models.Model):
     author = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     cover = models.ImageField(upload_to='book_covers/', blank=True, null=True)
+    ebook = models.FileField(upload_to='ebooks/', blank=True, null=True)
     genres = models.ManyToManyField(Genre, related_name='books', blank=True)
     published_date = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
