@@ -98,12 +98,18 @@ class BookDetailView(DetailView):
         return context
 
 
-class BookCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = Book
     form_class = BookForm
     template_name = 'books/book_form.html'
     success_message = 'Книга успішно додана!'
     login_url = 'login'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return super().handle_no_permission()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

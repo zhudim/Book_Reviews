@@ -26,6 +26,8 @@ def profile(request):
     reading_count = request.user.reading_list.count()
     want_count = request.user.reading_list.filter(status=ReadingList.STATUS_WANT).count()
     read_count = request.user.reading_list.filter(status=ReadingList.STATUS_READ).count()
+    recent_reviews = request.user.reviews.select_related('book')[:3]
+    
     return render(
         request,
         'users/profile.html',
@@ -35,6 +37,7 @@ def profile(request):
             'reading_count': reading_count,
             'want_count': want_count,
             'read_count': read_count,
+            'recent_reviews': recent_reviews,
         },
     )
 

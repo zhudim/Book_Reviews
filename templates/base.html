@@ -9,29 +9,70 @@
     <link href="{% static 'css/theme.css' %}" rel="stylesheet">
   </head>
   <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" href="{% url 'books:list' %}">BookReview</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="{% url 'books:list' %}">📚 BookReview</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Left Navigation -->
           <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="{% url 'books:list' %}">Книги</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'reviews:library' %}">Моя бібліотека</a></li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.resolver_match.url_name == 'list' %}active{% endif %}" href="{% url 'books:list' %}" aria-current="page">Книги</a>
+            </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'library' %}active{% endif %}" href="{% url 'reviews:library' %}">Моя бібліотека</a>
+              </li>
+            {% endif %}
           </ul>
+          
+          <!-- Search Bar -->
+          <form class="d-flex me-3 mb-2 mb-lg-0" method="get" action="{% url 'books:list' %}">
+            <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Пошук книг..." aria-label="Пошук">
+            <button class="btn btn-outline-light btn-sm" type="submit">🔍</button>
+          </form>
+          
+          <!-- Right Navigation -->
           <ul class="navbar-nav">
             {% if user.is_authenticated %}
-              <li class="nav-item"><a class="nav-link" href="{% url 'users:profile' %}">Профіль</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Вийти</a></li>
+              <!-- User Avatar Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="rounded-circle" width="30" height="30" style="object-fit: cover;">
+                  {% else %}
+                    <div class="user-avatar-placeholder rounded-circle d-flex align-items-center justify-content-center">
+                      {{ user.username|first|upper }}
+                    </div>
+                  {% endif %}
+                  <span class="ms-2 d-none d-md-inline">{{ user.username }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li><a class="dropdown-item" href="{% url 'users:profile' %}">👤 Профіль</a></li>
+                  <li><a class="dropdown-item" href="{% url 'users:edit_profile' %}">⚙️ Налаштування</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">🚪 Вийти</a></li>
+                </ul>
+              </li>
             {% else %}
-              <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Увійти</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">Реєстрація</a></li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Увійти</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'users:register' %}">Реєстрація</a>
+              </li>
             {% endif %}
           </ul>
         </div>
       </div>
     </nav>
+    
+    <!-- Scroll-to-Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top btn btn-primary rounded-circle" title="Повернутися вгору">
+      <i class="bi bi-chevron-up"></i>↑
+    </button>
     <main class="container py-4 flex-grow-1">
       {% if messages %}
         {% for message in messages %}
@@ -50,6 +91,7 @@
       </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/star_rating.js' %}"></script>
     <script>
       const themeToggle = document.getElementById('themeToggle');
       const currentTheme = localStorage.getItem('bookreview_theme') || 'light';

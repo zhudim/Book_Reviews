@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
+{% load book_filters %}
 {% block title %}Книги{% endblock %}
 {% block content %}
+<!-- Hero Section for Anonymous Users -->
+{% if not user.is_authenticated %}
+<div class="hero-section mb-5">
+  <div class="hero-content">
+    <h1 class="hero-title">Відкрийте свою наступну улюблену книгу</h1>
+    <p class="hero-subtitle">Читайте рецензії, залишайте відгуки, діліться думками</p>
+  </div>
+</div>
+{% endif %}
+
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
   <div>
     <h1>Книги</h1>
@@ -13,7 +24,7 @@
       <input type="hidden" name="sort" value="{{ sort }}">
       <button class="btn btn-outline-primary" type="submit">Шукати</button>
     </form>
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
       <a href="{% url 'books:create' %}" class="btn btn-success">+ Додати книгу</a>
     {% endif %}
   </div>
@@ -36,28 +47,64 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for book in books %}
     <div class="col">
-      <div class="card h-100 shadow-sm position-relative">
-        {% if book.cover %}
-          <img src="{{ book.cover.url }}" class="card-img-top" alt="{{ book.title }}">
-        {% else %}
-          <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 240px;">
-            <span class="text-muted">Обкладинка відсутня</span>
-          </div>
-        {% endif %}
+      <div class="card h-100 shadow-sm position-relative book-card">
+        <!-- Cover Image Container with Review Badge -->
+        <div class="book-cover-container position-relative">
+          {% if book.cover %}
+            <img src="{{ book.cover.url }}" class="card-img-top book-cover-img" alt="{{ book.title }}">
+          {% else %}
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center book-cover-img">
+              <span class="text-muted">Обкладинка відсутня</span>
+            </div>
+          {% endif %}
+          <!-- Review Count Badge -->
+          <span class="badge badge-review-count">
+            <i class="bi bi-chat-dots"></i> {{ book.reviews.count }}
+          </span>
+        </div>
+
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ book.title }}</h5>
-          <p class="card-text text-muted">{{ book.author }}</p>
-          <p class="card-text">{{ book.description|truncatechars:120 }}</p>
+          <p class="card-text text-muted small">{{ book.author }}</p>
+
+          <!-- Star Rating Display -->
+          <div class="mb-2 d-flex align-items-center gap-2">
+            <span class="stars-rating">{{ book.average_rating|star_rating }}</span>
+            <small class="text-muted">{{ book.average_rating }}/10</small>
+          </div>
+
+          <!-- Genre Badges -->
+          {% if book.genres.all %}
+            <div class="mb-2 d-flex flex-wrap gap-1">
+              {% for genre in book.genres.all %}
+                <span class="badge badge-genre">{{ genre.name }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <p class="card-text text-muted small">{{ book.description|truncatechars:120 }}</p>
+          
           <div class="mt-auto">
-            <p class="mb-1"><strong>Рейтинг:</strong> {{ book.average_rating }}/10</p>
-            <a class="btn btn-primary" href="{{ book.get_absolute_url }}">Деталі</a>
+            <a class="btn btn-primary btn-sm w-100" href="{{ book.get_absolute_url }}">Деталі</a>
           </div>
           <a class="stretched-link" href="{{ book.get_absolute_url }}" aria-label="Переглянути {{ book.title }}"></a>
         </div>
       </div>
     </div>
   {% empty %}
-    <div class="col-12"><p class="text-muted">Книги не знайдені.</p></div>
+    <div class="col-12">
+      <div class="empty-state-container text-center py-5">
+        <div class="empty-state-icon mb-4">📚</div>
+        <h3 class="empty-state-title">Нічого не знайдено</h3>
+        <p class="empty-state-message text-muted mb-4">Схоже, за вашим запитом немає книг. Спробуйте змінити пошукові параметри.</p>
+        <div class="d-flex gap-2 justify-content-center flex-wrap">
+          <a href="{% url 'books:list' %}" class="btn btn-primary">🔄 Очистити фільтри</a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'reviews:library' %}" class="btn btn-outline-primary">📖 Моя бібліотека</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   {% endfor %}
 </div>
 <nav class="mt-4" aria-label="Page navigation">

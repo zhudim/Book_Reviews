@@ -1,0 +1,10 @@
+<div class="star-rating-widget">
+  {% for group, options, index in widget.optgroups %}
+    {% for option in options %}
+      <label for="{{ option.attrs.id }}" class="star-rating-label" data-value="{{ option.value }}">
+        <input type="radio" name="{{ widget.name }}" value="{{ option.value }}"{% if option.value == widget.value %}checked{% endif %} id="{{ option.attrs.id }}" class="star-rating-input d-none">
+        <span class="star-icon">★</span>
+      </label>
+    {% endfor %}
+  {% endfor %}
+</div>

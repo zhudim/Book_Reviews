@@ -1,50 +1,158 @@
 {% extends 'base.html' %}
+{% load book_filters %}
 {% block title %}Профіль{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-lg-8">
+    <!-- Profile Header Card -->
     <div class="card shadow-sm mb-4">
       <div class="card-body d-flex gap-4 align-items-center">
+        <!-- Avatar -->
         {% if profile.avatar %}
-          <img src="{{ profile.avatar.url }}" class="rounded-circle" width="120" height="120" alt="Аватар">
+          <img src="{{ profile.avatar.url }}" class="rounded-circle" width="120" height="120" alt="Аватар" style="object-fit: cover;">
         {% else %}
-          <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="width:120px; height:120px;">
-            <span class="text-white fs-4">{{ profile.user.username|first|upper }}</span>
+          <div class="bg-gradient rounded-circle d-flex align-items-center justify-content-center" style="width:120px; height:120px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <span class="text-white fs-4 fw-bold">{{ profile.user.username|first|upper }}</span>
           </div>
         {% endif %}
-        <div>
+        
+        <div class="flex-grow-1">
           <h2>{{ profile.user.username }}</h2>
+          <p class="text-muted small mb-1">{{ profile.user.date_joined|format_join_date }}</p>
           <p class="mb-1"><strong>Електронна пошта:</strong> {{ profile.user.email }}</p>
           <p class="mb-1"><strong>Локація:</strong> {{ profile.location|default:'Не вказано' }}</p>
-          <p>{{ profile.bio|linebreaks|default:'Про користувача нічого не написано.' }}</p>
-          <div class="row row-cols-1 row-cols-md-4 g-2 mb-3">
-            <div class="col">
-              <div class="border rounded p-3 bg-light text-center">
-                <div class="h5 mb-1">{{ review_count }}</div>
-                <div class="text-muted">Рецензій</div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="border rounded p-3 bg-light text-center">
-                <div class="h5 mb-1">{{ reading_count }}</div>
-                <div class="text-muted">Книг у бібліотеці</div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="border rounded p-3 bg-light text-center">
-                <div class="h5 mb-1">{{ want_count }}</div>
-                <div class="text-muted">У плані читання</div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="border rounded p-3 bg-light text-center">
-                <div class="h5 mb-1">{{ read_count }}</div>
-                <div class="text-muted">Прочитано</div>
-              </div>
+          <p class="mb-3">{{ profile.bio|linebreaks|default:'Про користувача нічого не написано.' }}</p>
+          <a class="btn btn-primary btn-sm" href="{% url 'users:edit_profile' %}">Редагувати профіль</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row row-cols-1 row-cols-md-4 g-3 mb-4">
+      <div class="col">
+        <div class="card text-center h-100 shadow-sm">
+          <div class="card-body">
+            <div class="h5 mb-1">{{ review_count }}</div>
+            <div class="text-muted small">Рецензій</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-center h-100 shadow-sm">
+          <div class="card-body">
+            <div class="h5 mb-1">{{ reading_count }}</div>
+            <div class="text-muted small">Книг у бібліотеці</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-center h-100 shadow-sm">
+          <div class="card-body">
+            <div class="h5 mb-1">{{ want_count }}</div>
+            <div class="text-muted small">У плані читання</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card text-center h-100 shadow-sm">
+          <div class="card-body">
+            <div class="h5 mb-1">{{ read_count }}</div>
+            <div class="text-muted small">Прочитано</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reading Progress Chart -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title mb-4">📊 Прогрес читання</h5>
+        
+        <!-- Want to Read Progress -->
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label mb-0">Хочу прочитати</label>
+            <span class="badge bg-info">{{ want_count }}</span>
+          </div>
+          <div class="progress" role="progressbar" aria-valuenow="{{ want_count }}" aria-valuemin="0" aria-valuemax="{{ reading_count }}" style="height: 20px;">
+            <div class="progress-bar bg-info" style="width: {% if reading_count > 0 %}{{ want_count|multiply:100|divide:reading_count }}{% else %}0{% endif %}%;">
+              {% if reading_count > 0 and want_count > 0 %}{{ want_count|multiply:100|divide:reading_count|floatformat:0 }}%{% endif %}
             </div>
           </div>
-          <a class="btn btn-primary" href="{% url 'users:edit_profile' %}">Редагувати профіль</a>
         </div>
+        
+        <!-- Read Progress -->
+        <div class="mb-0">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label mb-0">Прочитано</label>
+            <span class="badge bg-success">{{ read_count }}</span>
+          </div>
+          <div class="progress" role="progressbar" aria-valuenow="{{ read_count }}" aria-valuemin="0" aria-valuemax="{{ reading_count }}" style="height: 20px;">
+            <div class="progress-bar bg-success" style="width: {% if reading_count > 0 %}{{ read_count|multiply:100|divide:reading_count }}{% else %}0{% endif %}%;">
+              {% if reading_count > 0 and read_count > 0 %}{{ read_count|multiply:100|divide:reading_count|floatformat:0 }}%{% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recently Reviewed Books -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-4">📚 Недавно розглянуті книги</h5>
+        
+        {% if recent_reviews %}
+          <div class="row row-cols-1 row-cols-md-3 g-3">
+            {% for review in recent_reviews %}
+              <div class="col">
+                <div class="card h-100 recent-review-card">
+                  <!-- Book Cover Thumbnail -->
+                  <div class="review-cover-container">
+                    {% if review.book.cover %}
+                      <img src="{{ review.book.cover.url }}" class="card-img-top review-book-cover" alt="{{ review.book.title }}">
+                    {% else %}
+                      <div class="card-img-top bg-light d-flex align-items-center justify-content-center review-book-cover">
+                        <span class="text-muted text-center small">Обкладинка<br>відсутня</span>
+                      </div>
+                    {% endif %}
+                  </div>
+                  
+                  <div class="card-body d-flex flex-column">
+                    <h6 class="card-title small">{{ review.book.title }}</h6>
+                    <p class="card-text text-muted small">{{ review.book.author }}</p>
+                    
+                    <!-- Review Rating and Title -->
+                    <div class="mb-2">
+                      <div class="stars-display-small mb-1">
+                        {% for i in "12345678910" %}
+                          {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+                        {% endfor %}
+                      </div>
+                      <p class="card-text small mb-0">
+                        <strong class="text-muted">{{ review.rating }}/10</strong>
+                      </p>
+                    </div>
+                    
+                    <p class="card-text text-muted small">{{ review.title }}</p>
+                    <p class="card-text small">{{ review.body|truncatewords:15 }}</p>
+                    
+                    <div class="mt-auto">
+                      <small class="text-muted">{{ review.created_at|date:'d.m.Y' }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state-container text-center py-4">
+            <div class="empty-state-icon mb-3">✍️</div>
+            <p class="empty-state-message text-muted mb-3">Ви ще не написали жодної рецензії.</p>
+            <a href="{% url 'books:list' %}" class="btn btn-primary btn-sm">
+              📖 Почніть писати рецензії
+            </a>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>

@@ -34,6 +34,7 @@
           <a class="btn btn-primary mt-2" href="{{ entry.book.get_absolute_url }}">Деталі</a>
         </div>
       </div>
+      </div>
     {% endfor %}
   </div>
   <nav class="mt-4" aria-label="Page navigation">
@@ -50,6 +51,13 @@
     </ul>
   </nav>
 {% else %}
-  <p class="text-muted">Ваш список читання порожній.</p>
+  <div class="empty-state-container text-center py-5">
+    <div class="empty-state-icon mb-4">📚</div>
+    <h2 class="empty-state-title">Ваша бібліотека порожня</h2>
+    <p class="empty-state-message text-muted mb-4">Додайте першу книгу до вашої бібліотеки та почніть писати рецензії!</p>
+    <a href="{% url 'books:list' %}" class="btn btn-primary btn-lg">
+      🔍 Перейти до каталогу книг
+    </a>
+  </div>
 {% endif %}
 {% endblock %}
