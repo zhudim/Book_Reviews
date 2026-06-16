@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
@@ -54,3 +55,8 @@ def edit_profile(request):
     else:
         form = ProfileForm(instance=profile)
     return render(request, 'users/edit_profile.html', {'form': form})
+
+
+def logout_view(request):
+    auth_logout(request)
+    return render(request, 'registration/logged_out.html')

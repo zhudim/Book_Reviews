@@ -653,6 +653,19 @@ body.theme-dark .progress {
   color: white;
 }
 
+.reading-meter {
+  background-color: #e9ecef;
+  border-radius: 999px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.reading-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
 .bg-info {
   background-color: #17a2b8 !important;
 }

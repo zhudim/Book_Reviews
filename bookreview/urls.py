@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
 from users.forms import CustomAuthenticationForm
+from users.views import logout_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,7 +29,7 @@ urlpatterns = [
         template_name='registration/login.html',
         authentication_form=CustomAuthenticationForm,
     ), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/logout/', logout_view, name='logout'),
     path('accounts/', include('users.urls')),
     path('reviews/', include('reviews.urls')),
     path('', include('books.urls')),

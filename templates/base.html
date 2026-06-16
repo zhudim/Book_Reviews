@@ -28,12 +28,6 @@
             {% endif %}
           </ul>
           
-          <!-- Search Bar -->
-          <form class="d-flex me-3 mb-2 mb-lg-0" method="get" action="{% url 'books:list' %}">
-            <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Пошук книг..." aria-label="Пошук">
-            <button class="btn btn-outline-light btn-sm" type="submit">🔍</button>
-          </form>
-          
           <!-- Right Navigation -->
           <ul class="navbar-nav">
             {% if user.is_authenticated %}

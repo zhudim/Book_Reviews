@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="480" viewBox="0 0 320 480" role="img" aria-labelledby="title desc">
+  <title id="title">Book cover</title>
+  <desc id="desc">Default book cover image placeholder</desc>
+  <rect width="320" height="480" rx="24" ry="24" fill="#f1f3f5" stroke="#ced4da" stroke-width="2"/>
+  <rect x="32" y="56" width="256" height="328" rx="16" ry="16" fill="#ffffff" stroke="#adb5bd" stroke-width="2"/>
+  <path d="M64 112h192" stroke="#868e96" stroke-width="3" stroke-linecap="round"/>
+  <path d="M64 152h192" stroke="#adb5bd" stroke-width="3" stroke-linecap="round"/>
+  <path d="M64 192h192" stroke="#dee2e6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M64 232h192" stroke="#dee2e6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M64 272h192" stroke="#dee2e6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M64 312h192" stroke="#dee2e6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M64 352h192" stroke="#dee2e6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M104 408h112" stroke="#868e96" stroke-width="6" stroke-linecap="round"/>
+</svg>

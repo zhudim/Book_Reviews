@@ -67,30 +67,30 @@
     <div class="card shadow-sm mb-4">
       <div class="card-body">
         <h5 class="card-title mb-4">📊 Прогрес читання</h5>
-        
-        <!-- Want to Read Progress -->
+
         <div class="mb-3">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <label class="form-label mb-0">Хочу прочитати</label>
-            <span class="badge bg-info">{{ want_count }}</span>
+            <span>Хочу прочитати</span>
+            <span class="text-muted small">{{ want_count }} / {{ reading_count }}</span>
           </div>
-          <div class="progress" role="progressbar" aria-valuenow="{{ want_count }}" aria-valuemin="0" aria-valuemax="{{ reading_count }}" style="height: 20px;">
-            <div class="progress-bar bg-info" style="width: {% if reading_count > 0 %}{{ want_count|multiply:100|divide:reading_count }}{% else %}0{% endif %}%;">
-              {% if reading_count > 0 and want_count > 0 %}{{ want_count|multiply:100|divide:reading_count|floatformat:0 }}%{% endif %}
-            </div>
+          <div class="reading-meter">
+            <div class="reading-meter-fill bg-info" style="width: {% if reading_count > 0 %}{{ want_count|multiply:100|divide:reading_count|floatformat:0 }}{% else %}0{% endif %}%;"></div>
+          </div>
+          <div class="text-end text-muted small mt-1">
+            {% if reading_count > 0 %}{{ want_count|multiply:100|divide:reading_count|floatformat:0 }}%{% else %}0%{% endif %}
           </div>
         </div>
-        
-        <!-- Read Progress -->
-        <div class="mb-0">
+
+        <div>
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <label class="form-label mb-0">Прочитано</label>
-            <span class="badge bg-success">{{ read_count }}</span>
+            <span>Прочитано</span>
+            <span class="text-muted small">{{ read_count }} / {{ reading_count }}</span>
           </div>
-          <div class="progress" role="progressbar" aria-valuenow="{{ read_count }}" aria-valuemin="0" aria-valuemax="{{ reading_count }}" style="height: 20px;">
-            <div class="progress-bar bg-success" style="width: {% if reading_count > 0 %}{{ read_count|multiply:100|divide:reading_count }}{% else %}0{% endif %}%;">
-              {% if reading_count > 0 and read_count > 0 %}{{ read_count|multiply:100|divide:reading_count|floatformat:0 }}%{% endif %}
-            </div>
+          <div class="reading-meter">
+            <div class="reading-meter-fill bg-success" style="width: {% if reading_count > 0 %}{{ read_count|multiply:100|divide:reading_count|floatformat:0 }}{% else %}0{% endif %}%;"></div>
+          </div>
+          <div class="text-end text-muted small mt-1">
+            {% if reading_count > 0 %}{{ read_count|multiply:100|divide:reading_count|floatformat:0 }}%{% else %}0%{% endif %}
           </div>
         </div>
       </div>
